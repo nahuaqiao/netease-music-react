@@ -1,0 +1,12 @@
+/* 毛玻璃效果 */
+.FrostedGlass {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: saturate(180%) blur(25px);
+}
+
+/* 单行文本省略 */
+.SingleLineTextOverflowEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
