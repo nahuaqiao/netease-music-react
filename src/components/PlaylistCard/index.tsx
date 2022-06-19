@@ -24,7 +24,7 @@ export type PlaylistCardPropType = {
   trackCount: number
 }
 
-const TypographyLink = styled(Typography)(() => ({
+export const TypographyLink = styled(Typography)(() => ({
   '&:hover': {
     textDecoration: 'underline',
   },

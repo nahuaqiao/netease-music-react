@@ -1,15 +1,21 @@
-import { PlaylistCardPropType } from '@/components/PlaylistCard'
-import { PlaylistCategory } from '@/hooks/PlaylistHooks'
 import Api from './Api'
 
-export const getOfficicalRecommendResponse = async (limit: number) => {
-  return await Api(`/personalized?limit=${limit}`)
+import { PlaylistCardPropType } from '@/components/PlaylistCard'
+import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
+import { PlaylistCategory } from '@/hooks/PlaylistHooks'
+
+export const getOfficicalRecommendResponse = async (
+  limit: number,
+  offset: number
+) => {
+  return await Api(`/personalized?limit=${limit}&offset=${offset}`)
 }
 
 export const getOfficialRecommendData = async (
-  limit: number = 7
+  limit: number = EXHIBIT_CARD_COUNT,
+  offset: number
 ): Promise<PlaylistCardPropType[]> => {
-  const response = await getOfficicalRecommendResponse(limit)
+  const response = await getOfficicalRecommendResponse(limit, offset)
   return response.data.result.map(
     ({
       id,
@@ -35,16 +41,19 @@ export const getOfficialRecommendData = async (
 
 export const getTopPlaylistResponse = async (
   playlistCategory: PlaylistCategory,
-  limit: number
+  limit: number,
+  offset: number
 ) => {
-  return await Api(`/top/playlist?cat=${playlistCategory}&limit=${limit}`)
+  return await Api(
+    `/top/playlist?cat=${playlistCategory}&limit=${limit}&offset=${offset}`
+  )
 }
 export const getTopPlaylistData = async (
   playlistCategory: PlaylistCategory,
-  limit: number = 7
+  limit: number = EXHIBIT_CARD_COUNT,
+  offset: number
 ): Promise<PlaylistCardPropType[]> => {
-  const response = await getTopPlaylistResponse(playlistCategory, limit)
-  console.log(response)
+  const response = await getTopPlaylistResponse(playlistCategory, limit, offset)
   return response.data.playlists.map(
     ({
       id,

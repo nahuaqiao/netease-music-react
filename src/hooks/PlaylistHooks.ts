@@ -5,24 +5,39 @@ import {
   getOfficialRecommendData,
   getTopPlaylistData,
 } from '@/api/RecommendApi'
+import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
 
 // 获取官方推荐数据钩子
-export const useOfficicalRecommend = () => {
+/**
+ *
+ * @param rowCount 推荐歌单行数, 默认为一行, 一行默认为6个, 储存在一个常量EXHIBIT_CARD_COUNT中, 变量存在于@/components/PlaylistExhibit文件中
+ * @returns 推荐歌单数据, 以歌单类别和歌单内容组成, 内容长度为rowCount * EXHIBIT_CARD_COUNT
+ */
+export const useOfficicalRecommend = (
+  rowCount: number = 1
+): [PlaylistCardPropType[], () => void] => {
   const [officialRecommend, setOfficialRecommend] = React.useState<
     PlaylistCardPropType[]
   >([])
 
+  const [offset, setOffset] = React.useState(0)
+
+  const incrementOffset = () => setOffset((preOffset) => preOffset + 1)
+
   // useCallback的意义是为了不重复创建函数, 即使父组件重新渲染,被useCallback包裹的函数也不会重新生成
   const loadState = React.useCallback(async () => {
-    const officialRecommendData = await getOfficialRecommendData()
+    const officialRecommendData = await getOfficialRecommendData(
+      rowCount * EXHIBIT_CARD_COUNT,
+      offset
+    )
     setOfficialRecommend(officialRecommendData)
-  }, [])
+  }, [offset, rowCount])
 
   React.useEffect(() => {
     loadState()
-  }, [loadState])
+  }, [rowCount, loadState])
 
-  return officialRecommend
+  return [officialRecommend, incrementOffset]
 }
 
 // 获取对应类别歌单数据
@@ -30,19 +45,35 @@ export const useOfficicalRecommend = () => {
 export type PlaylistCategory = '电子' | '古典' | '蓝调' | 'ACG'
 
 // 获取对应类别的热门歌单
-export const useTopPlaylist = (playlistCategory: PlaylistCategory) => {
+/**
+ * @param playlistCategory 歌单类别
+ * @param rowCount 推荐歌单行数, 默认为一行, 一行默认为6个, 储存在一个常量EXHIBIT_CARD_COUNT中, 变量存在于@/components/PlaylistExhibit文件中
+ * @returns 推荐歌单数据, 以歌单类别和歌单内容组成, 内容长度为rowCount * EXHIBIT_CARD_COUNT
+ */
+export const useTopPlaylist = (
+  playlistCategory: PlaylistCategory,
+  rowCount: number = 1
+): [PlaylistCardPropType[], () => void] => {
   const [topPlaylist, setTopPlaylist] = React.useState<PlaylistCardPropType[]>(
     []
   )
-  // useCallback的意义是为了不重复创建函数, 即使父组件重新渲染,被useCallback包裹的函数也不会重新生成
+  const [offset, setOffset] = React.useState(0)
+
+  const incrementOffset = () => setOffset((preOffset) => preOffset + 1)
+
+  // useCallback的意义是为了不重复创建函数, 即使父组件重新渲染,被useCallback包裹的函数也不会重新生成. 仅当观测的参数发生变化才重新计算函数结果
   const loadState = React.useCallback(async () => {
-    const topPlaylistData = await getTopPlaylistData(playlistCategory)
+    const topPlaylistData = await getTopPlaylistData(
+      playlistCategory,
+      rowCount * EXHIBIT_CARD_COUNT,
+      offset
+    )
     setTopPlaylist(topPlaylistData)
-  }, [playlistCategory])
+  }, [playlistCategory, rowCount, offset])
 
   React.useEffect(() => {
     loadState()
   }, [loadState])
 
-  return topPlaylist
+  return [topPlaylist, incrementOffset]
 }
