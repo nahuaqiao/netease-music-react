@@ -3,11 +3,10 @@ import React from 'react'
 import { Box, Button, Grid, Skeleton, Typography } from '@mui/material'
 
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
-
 import PlaylistCard, {
   PlaylistCardPropType,
   PlaylistCardSkeleton,
-} from '@/components/PlaylistCard'
+} from '../PlaylistCard'
 
 export type PlaylistExhibitPropType = {
   playlistExhibitTitle: string

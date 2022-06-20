@@ -1,13 +1,21 @@
 import React from 'react'
 
 import { Box, Stack } from '@mui/material'
-
 import PlaylistExhibit, {
   PlaylistExhibitPropType,
   PlaylistExhibitSkeleton,
-} from '@/components/PlaylistExhibit'
+} from '../../components/PlaylistExhibit'
+import {
+  useTopPlaylist,
+  useOfficicalRecommend,
+} from '../../hooks/PlaylistHooks'
 
-import { useOfficicalRecommend, useTopPlaylist } from '@/hooks/PlaylistHooks'
+// import PlaylistExhibit, {
+//   PlaylistExhibitPropType,
+//   PlaylistExhibitSkeleton,
+// } from '../../../components/PlaylistExhibit'
+
+// import { useOfficicalRecommend, useTopPlaylist } from '@/hooks/PlaylistHooks'
 
 const PlaylistRow = ({
   playlistExhibitTitle,

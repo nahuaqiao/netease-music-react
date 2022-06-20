@@ -1,8 +1,11 @@
+import { PlaylistCardPropType } from '../components/PlaylistCard'
+import { EXHIBIT_CARD_COUNT } from '../components/PlaylistExhibit'
+import { PlaylistCategory } from '../hooks/PlaylistHooks'
 import Api from './Api'
 
-import { PlaylistCardPropType } from '@/components/PlaylistCard'
-import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
-import { PlaylistCategory } from '@/hooks/PlaylistHooks'
+// import { PlaylistCardPropType } from '@/components/PlaylistCard'
+// import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
+// import { PlaylistCategory } from '@/hooks/PlaylistHooks'
 
 export const getOfficicalRecommendResponse = async (
   limit: number,

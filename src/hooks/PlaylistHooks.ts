@@ -1,11 +1,17 @@
 import React from 'react'
-
-import { PlaylistCardPropType } from '@/components/PlaylistCard'
 import {
   getOfficialRecommendData,
   getTopPlaylistData,
-} from '@/api/RecommendApi'
-import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
+} from '../api/RecommendApi'
+import { PlaylistCardPropType } from '../components/PlaylistCard'
+import { EXHIBIT_CARD_COUNT } from '../components/PlaylistExhibit'
+
+// import { PlaylistCardPropType } from '@/components/PlaylistCard'
+// import {
+//   getOfficialRecommendData,
+//   getTopPlaylistData,
+// } from '@/api/RecommendApi'
+// import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
 
 // 获取官方推荐数据钩子
 /**
