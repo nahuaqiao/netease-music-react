@@ -1,29 +1,30 @@
 import React from 'react'
+
 import {
   getOfficialRecommendData,
   getTopPlaylistData,
-} from '../api/RecommendApi'
-import { PlaylistCardPropType } from '../components/PlaylistCard'
-import { EXHIBIT_CARD_COUNT } from '../components/PlaylistExhibit'
+} from '../api/RecommendPlaylistApi'
 
-// import { PlaylistCardPropType } from '@/components/PlaylistCard'
-// import {
-//   getOfficialRecommendData,
-//   getTopPlaylistData,
-// } from '@/api/RecommendApi'
-// import { EXHIBIT_CARD_COUNT } from '@/components/PlaylistExhibit'
+export const EXHIBIT_CARD_COUNT = 6
 
-// 获取官方推荐数据钩子
+export type RecommendPlaylistType = {
+  id: number
+  name: string
+  coverImgUrl: string
+  playCount: number
+  trackCount: number
+}
+
 /**
- *
+ * 获取官方推荐数据钩子
  * @param rowCount 推荐歌单行数, 默认为一行, 一行默认为6个, 储存在一个常量EXHIBIT_CARD_COUNT中, 变量存在于@/components/PlaylistExhibit文件中
  * @returns 推荐歌单数据, 以歌单类别和歌单内容组成, 内容长度为rowCount * EXHIBIT_CARD_COUNT
  */
 export const useOfficicalRecommend = (
   rowCount: number = 1
-): [PlaylistCardPropType[], () => void] => {
+): [RecommendPlaylistType[], () => void] => {
   const [officialRecommend, setOfficialRecommend] = React.useState<
-    PlaylistCardPropType[]
+    RecommendPlaylistType[]
   >([])
 
   const [offset, setOffset] = React.useState(0)
@@ -59,8 +60,8 @@ export type PlaylistCategory = '电子' | '古典' | '蓝调' | 'ACG'
 export const useTopPlaylist = (
   playlistCategory: PlaylistCategory,
   rowCount: number = 1
-): [PlaylistCardPropType[], () => void] => {
-  const [topPlaylist, setTopPlaylist] = React.useState<PlaylistCardPropType[]>(
+): [RecommendPlaylistType[], () => void] => {
+  const [topPlaylist, setTopPlaylist] = React.useState<RecommendPlaylistType[]>(
     []
   )
   const [offset, setOffset] = React.useState(0)

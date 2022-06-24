@@ -1,21 +1,16 @@
 import React from 'react'
 
 import { Box, Stack } from '@mui/material'
-import PlaylistExhibit, {
-  PlaylistExhibitPropType,
-  PlaylistExhibitSkeleton,
-} from '../../components/PlaylistExhibit'
+
 import {
   useTopPlaylist,
   useOfficicalRecommend,
-} from '../../hooks/PlaylistHooks'
-
-// import PlaylistExhibit, {
-//   PlaylistExhibitPropType,
-//   PlaylistExhibitSkeleton,
-// } from '../../../components/PlaylistExhibit'
-
-// import { useOfficicalRecommend, useTopPlaylist } from '@/hooks/PlaylistHooks'
+} from '../../hooks/RecommendPlaylistHooks'
+import { useNavigate } from 'react-router-dom'
+import PlaylistExhibit, {
+  PlaylistExhibitPropType,
+  PlaylistExhibitSkeleton,
+} from '../../components/RecommendPlaylist/PlaylistExhibit'
 
 const PlaylistRow = ({
   playlistExhibitTitle,
@@ -24,21 +19,35 @@ const PlaylistRow = ({
 }: PlaylistExhibitPropType) => {
   return (
     <Box>
-      {playlistExhibitData.length === 0 ? (
-        <PlaylistExhibitSkeleton />
-      ) : (
+      {playlistExhibitData.length > 0 ? (
         <PlaylistExhibit
           playlistExhibitTitle={playlistExhibitTitle}
           playlistExhibitData={playlistExhibitData}
           incrementOffset={incrementOffset}
         />
+      ) : (
+        <PlaylistExhibitSkeleton />
       )}
     </Box>
   )
 }
 
+export const PlaylistCardContext = React.createContext<{
+  handleClickPlaylistCard: (paylistId: number) => void
+}>({ handleClickPlaylistCard: (paylistId: number) => {} })
+
 // 获取要展示的推荐歌单数据, 渲染到页面中
 const Recommend = () => {
+  const navigate = useNavigate()
+
+  const handleClickPlaylistCard = (playlistId: number) => {
+    navigate(`/playlist/${playlistId}`)
+  }
+
+  const initialContext = {
+    handleClickPlaylistCard,
+  }
+
   // 获取古典音乐推荐歌单数据
   const [classicalPlaylistExhibitData, incrementOffsetClassical] =
     useTopPlaylist('古典')
@@ -82,25 +91,30 @@ const Recommend = () => {
   }
 
   return (
-    <Stack spacing={4}>
-      <PlaylistRow
-        incrementOffset={incrementOffsetClassical}
-        {...classicalPlaylistProp}
-      />
-      <PlaylistRow
-        incrementOffset={incrementOffsetElectronic}
-        {...electronicPlaylistProp}
-      />
-      <PlaylistRow
-        incrementOffset={incrementOffsetBlues}
-        {...bluesPlaylistProp}
-      />
-      <PlaylistRow incrementOffset={incrementOffsetAcg} {...acgPlaylistProp} />
-      <PlaylistRow
-        incrementOffset={incrementOffsetOfficial}
-        {...officialPlaylistProp}
-      />
-    </Stack>
+    <PlaylistCardContext.Provider value={initialContext}>
+      <Stack spacing={4}>
+        <PlaylistRow
+          incrementOffset={incrementOffsetClassical}
+          {...classicalPlaylistProp}
+        />
+        <PlaylistRow
+          incrementOffset={incrementOffsetElectronic}
+          {...electronicPlaylistProp}
+        />
+        <PlaylistRow
+          incrementOffset={incrementOffsetBlues}
+          {...bluesPlaylistProp}
+        />
+        <PlaylistRow
+          incrementOffset={incrementOffsetAcg}
+          {...acgPlaylistProp}
+        />
+        <PlaylistRow
+          incrementOffset={incrementOffsetOfficial}
+          {...officialPlaylistProp}
+        />
+      </Stack>
+    </PlaylistCardContext.Provider>
   )
 }
 

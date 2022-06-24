@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import './App.scss'
 
@@ -11,33 +11,34 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
-// import AppWrapper from './pages/AppWrapper'
-// import RecommendPlaylist from './pages/RecommendPlaylist'
-// import PlaylistDetail from './pages/PlaylistDetail'
-// import NotFound from './pages/NotFound'
-// import Test from './pages/Test'
-
 const AppWrapper = React.lazy(() => import('./pages/AppWrapper'))
 const RecommendPlaylist = React.lazy(() => import('./pages/RecommendPlaylist'))
 const PlaylistDetail = React.lazy(() => import('./pages/PlaylistDetail'))
+const Personalize = React.lazy(() => import('./pages/Personalize'))
 const NotFound = React.lazy(() => import('./pages/NotFound'))
-const Test = React.lazy(() => import('./pages/Test'))
+const Test = React.lazy(() => import('./pages/TestPage'))
 
 const App = () => {
   return (
     <Container>
       <CssBaseline />
       <Router>
-        <Routes>
-          <Route path='/' element={<AppWrapper />}>
-            <Route path='/' element={<RecommendPlaylist />} />
-            <Route path='/recommend' element={<RecommendPlaylist />} />
-            <Route path='/playlist/:playlistId' element={<PlaylistDetail />} />
+        <Suspense>
+          <Routes>
+            <Route path='/' element={<AppWrapper />}>
+              <Route path='/' element={<RecommendPlaylist />} />
+              <Route path='/recommend' element={<RecommendPlaylist />} />
+              <Route
+                path='/playlist/:playlistId'
+                element={<PlaylistDetail />}
+              />
 
-            <Route path='/test' element={<Test />} />
-          </Route>
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+              <Route path='/personalize' element={<Personalize />} />
+              <Route path='/test' element={<Test />} />
+            </Route>
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </Router>
     </Container>
   )
