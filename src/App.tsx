@@ -31,8 +31,6 @@ const App = () => {
                 path='/playlist/:playlistId'
                 element={<PlaylistDetail />}
               />
-
-              <Route path='/personalize' element={<Personalize />} />
             </Route>
             <Route path='*' element={<NotFound />} />
           </Routes>
