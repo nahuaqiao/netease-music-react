@@ -16,7 +16,6 @@ const RecommendPlaylist = React.lazy(() => import('./pages/RecommendPlaylist'))
 const PlaylistDetail = React.lazy(() => import('./pages/PlaylistDetail'))
 const Personalize = React.lazy(() => import('./pages/Personalize'))
 const NotFound = React.lazy(() => import('./pages/NotFound'))
-const Test = React.lazy(() => import('./pages/TestPage'))
 
 const App = () => {
   return (
@@ -34,7 +33,6 @@ const App = () => {
               />
 
               <Route path='/personalize' element={<Personalize />} />
-              <Route path='/test' element={<Test />} />
             </Route>
             <Route path='*' element={<NotFound />} />
           </Routes>
