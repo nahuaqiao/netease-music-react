@@ -14,7 +14,6 @@ import '@fontsource/roboto/700.css'
 const AppWrapper = React.lazy(() => import('./pages/AppWrapper'))
 const RecommendPlaylist = React.lazy(() => import('./pages/RecommendPlaylist'))
 const PlaylistDetail = React.lazy(() => import('./pages/PlaylistDetail'))
-const Personalize = React.lazy(() => import('./pages/Personalize'))
 const NotFound = React.lazy(() => import('./pages/NotFound'))
 
 const App = () => {
