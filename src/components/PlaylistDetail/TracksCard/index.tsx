@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { useTrackIsValid } from '../../../hooks/TrackHooks'
+
 import {
   Card,
   ListItem,
@@ -14,6 +16,9 @@ import {
   List,
 } from '@mui/material'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+
+import { useDispatch } from 'react-redux'
+import { setTracks } from '../../../redux/TracksSlice'
 
 export type CreatorType = {
   name: string
@@ -42,27 +47,48 @@ export type TracksType = {
 }
 
 // 播放列表单独行
-export const TracksRow = ({ track }: { track: TracksType }) => {
+export const TracksRow = ({
+  track,
+  currentIndex,
+  handlePlayButtonClick,
+}: {
+  track: TracksType
+  currentIndex: number
+  handlePlayButtonClick: (currentIndex: number) => void
+}) => {
   const [raised, setRaised] = React.useState(false)
+  const isValid = useTrackIsValid(track.id)
   return (
     <Card
       sx={{ my: 2 }}
       raised={raised}
-      onMouseOver={() => setRaised(true)}
-      onMouseLeave={() => setRaised(false)}>
+      onMouseOver={() => setRaised(isValid && true)}
+      onMouseLeave={() => setRaised(isValid && false)}>
       <ListItem sx={{ cursor: 'pointer' }}>
         <ListItemAvatar>
           <Avatar alt='pic' variant='rounded' src={track.album.coverImgUrl} />
         </ListItemAvatar>
         <ListItemText
-          primary={<Typography noWrap>{track.name}</Typography>}
+          primary={
+            <Typography
+              color={isValid ? 'text.primary' : 'text.disabled'}
+              noWrap>
+              {track.name}
+            </Typography>
+          }
           secondary={
-            <Typography noWrap variant='body2' color='text.secondary'>
+            <Typography
+              noWrap
+              variant='body2'
+              color={isValid ? 'text.primary' : 'text.disabled'}>
               {track.artists.map((artist) => artist.name).join(' / ')}
             </Typography>
           }
         />
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            isValid && handlePlayButtonClick(currentIndex)
+          }}>
           <PlayCircleOutlineIcon fontSize='medium' />
         </IconButton>
       </ListItem>
@@ -71,11 +97,25 @@ export const TracksRow = ({ track }: { track: TracksType }) => {
 }
 
 const TracksCard = ({ tracks }: { tracks: TracksType[] }) => {
+  const dispatch = useDispatch()
+
+  /**
+   * 处理点击歌曲播放按钮事件
+   */
+  const handlePlayButtonClick = (currentIndex: number) => {
+    dispatch(setTracks({ tracks, currentIndex }))
+  }
+
   return (
     <Grow in timeout={800}>
       <Box sx={{ p: 2 }}>
-        {tracks.map((track) => (
-          <TracksRow key={track.id} track={track} />
+        {tracks.map((track, index) => (
+          <TracksRow
+            key={track.id}
+            track={track}
+            currentIndex={index}
+            handlePlayButtonClick={handlePlayButtonClick}
+          />
         ))}
       </Box>
     </Grow>

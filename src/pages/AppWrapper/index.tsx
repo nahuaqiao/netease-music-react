@@ -1,6 +1,7 @@
 import React from 'react'
+import './style.scss'
 
-import { Box } from '@mui/material'
+import { Container, Box } from '@mui/material'
 
 import { Outlet } from 'react-router-dom'
 
@@ -9,11 +10,13 @@ import BottomPlayerControlBar from '../../components/common/BottomPlayerControlB
 
 const AppWrapper = () => {
   return (
-    <div>
-      <TopAppBar />
-      <Box sx={{ marginTop: 4, marginBottom: 4 }}>
-        <Outlet />
-      </Box>
+    <div className='AppWrapper'>
+      <Container>
+        <TopAppBar />
+        <Box sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Outlet />
+        </Box>
+      </Container>
       <BottomPlayerControlBar />
     </div>
   )

@@ -51,7 +51,6 @@ export const getPlaylistDetailData = async (
   playlistId: number
 ): Promise<PlaylistDetailPropType> => {
   const { data } = await getPlaylistDetailResponse(playlistId)
-  console.log(data)
   return {
     playlistInfo: {
       name: data.playlist.name,

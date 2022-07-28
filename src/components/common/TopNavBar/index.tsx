@@ -11,7 +11,6 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import { alpha, styled } from '@mui/material/styles'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
 import { useNavigate } from 'react-router-dom'
@@ -82,10 +81,6 @@ const ResponsiveAppBar = () => {
 
   const navigate = useNavigate()
 
-  const backLastRouter = () => {
-    navigate(-1)
-  }
-
   const navigateTo = (url: string) => {
     navigate(url)
   }
@@ -112,10 +107,8 @@ const ResponsiveAppBar = () => {
               aria-label='back to last page'
               aria-controls='menu-appbar'
               aria-haspopup='true'
-              onClick={() => backLastRouter()}
               color='inherit'
               sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
-              <ArrowBackIcon />
             </IconButton>
           </Tooltip>
         </Box>
@@ -194,7 +187,6 @@ const ResponsiveAppBar = () => {
             size='small'
             onClick={handleOpenUserMenu}
             sx={{ p: 0, m: 4 }}>
-            {/* sx={{ width: 20, height: 20 }} */}
             <Avatar alt='游客' />
           </IconButton>
           <Menu
